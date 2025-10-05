@@ -133,7 +133,7 @@ pip install novuneb
 
 ```bash
 # Clone the repository
-git clone https://github.com/novuneb/novuneb.git
+git clone https://github.com/nekyb/novuneb.git
 cd novuneb
 
 # Install with pip
