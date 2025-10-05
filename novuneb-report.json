@@ -1,0 +1,336 @@
+{
+  "scan_id": "scan-6df6a5d2c45b",
+  "target_path": "test_vulnerable.py",
+  "started_at": "2025-10-05T22:27:19.138856",
+  "completed_at": "2025-10-05T22:27:28.536079",
+  "statistics": {
+    "total_files": 1,
+    "total_lines": 46,
+    "files_with_issues": 0,
+    "total_vulnerabilities": 10,
+    "by_severity": {
+      "critical": 0,
+      "high": 4,
+      "medium": 6,
+      "low": 0,
+      "info": 0
+    },
+    "fixed_count": 0,
+    "scan_duration_seconds": 9.4
+  },
+  "vulnerabilities": [
+    {
+      "id": "bandit-B605",
+      "title": "start_process_with_a_shell",
+      "description": "Starting a process with a shell, possible injection detected, security issue.",
+      "severity": "high",
+      "cvss_score": 7.5,
+      "cwe_id": null,
+      "location": "test_vulnerable.py:15:4",
+      "scanner": "Bandit",
+      "rule_id": "B605",
+      "message": "Starting a process with a shell, possible injection detected, security issue.",
+      "references": [
+        "https://bandit.readthedocs.io/en/1.8.6/plugins/b605_start_process_with_a_shell.html"
+      ],
+      "has_fix": false,
+      "fix_status": null,
+      "metadata": {
+        "confidence": "HIGH",
+        "code": "14 def execute_command(user_input):\n15     os.system(f\"ls {user_input}\")\n16 \n"
+      },
+      "detected_at": "2025-10-05T22:27:19.668694"
+    },
+    {
+      "id": "bandit-B608",
+      "title": "hardcoded_sql_expressions",
+      "description": "Possible SQL injection vector through string-based query construction.",
+      "severity": "medium",
+      "cvss_score": 5.0,
+      "cwe_id": null,
+      "location": "test_vulnerable.py:18:12",
+      "scanner": "Bandit",
+      "rule_id": "B608",
+      "message": "Possible SQL injection vector through string-based query construction.",
+      "references": [
+        "https://bandit.readthedocs.io/en/1.8.6/plugins/b608_hardcoded_sql_expressions.html"
+      ],
+      "has_fix": false,
+      "fix_status": null,
+      "metadata": {
+        "confidence": "LOW",
+        "code": "17 def sql_query(user_id):\n18     query = f\"SELECT * FROM users WHERE id = {user_id}\"\n19     return query\n"
+      },
+      "detected_at": "2025-10-05T22:27:19.668719"
+    },
+    {
+      "id": "bandit-B301",
+      "title": "blacklist",
+      "description": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.",
+      "severity": "medium",
+      "cvss_score": 5.0,
+      "cwe_id": null,
+      "location": "test_vulnerable.py:22:11",
+      "scanner": "Bandit",
+      "rule_id": "B301",
+      "message": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.",
+      "references": [
+        "https://bandit.readthedocs.io/en/1.8.6/blacklists/blacklist_calls.html#b301-pickle"
+      ],
+      "has_fix": false,
+      "fix_status": null,
+      "metadata": {
+        "confidence": "HIGH",
+        "code": "21 def deserialize_data(data):\n22     return pickle.loads(data)\n23 \n"
+      },
+      "detected_at": "2025-10-05T22:27:19.668734"
+    },
+    {
+      "id": "bandit-B602",
+      "title": "subprocess_popen_with_shell_equals_true",
+      "description": "subprocess call with shell=True identified, security issue.",
+      "severity": "high",
+      "cvss_score": 7.5,
+      "cwe_id": null,
+      "location": "test_vulnerable.py:25:4",
+      "scanner": "Bandit",
+      "rule_id": "B602",
+      "message": "subprocess call with shell=True identified, security issue.",
+      "references": [
+        "https://bandit.readthedocs.io/en/1.8.6/plugins/b602_subprocess_popen_with_shell_equals_true.html"
+      ],
+      "has_fix": false,
+      "fix_status": null,
+      "metadata": {
+        "confidence": "HIGH",
+        "code": "24 def run_shell_command(cmd):\n25     subprocess.call(cmd, shell=True)\n26 \n"
+      },
+      "detected_at": "2025-10-05T22:27:19.668746"
+    },
+    {
+      "id": "bandit-B324",
+      "title": "hashlib",
+      "description": "Use of weak MD5 hash for security. Consider usedforsecurity=False",
+      "severity": "high",
+      "cvss_score": 7.5,
+      "cwe_id": null,
+      "location": "test_vulnerable.py:29:20",
+      "scanner": "Bandit",
+      "rule_id": "B324",
+      "message": "Use of weak MD5 hash for security. Consider usedforsecurity=False",
+      "references": [
+        "https://bandit.readthedocs.io/en/1.8.6/plugins/b324_hashlib.html"
+      ],
+      "has_fix": false,
+      "fix_status": null,
+      "metadata": {
+        "confidence": "HIGH",
+        "code": "28     import hashlib\n29     password_hash = hashlib.md5(b\"mypassword\").hexdigest()\n30     return password_hash\n"
+      },
+      "detected_at": "2025-10-05T22:27:19.668760"
+    },
+    {
+      "id": "bandit-B307",
+      "title": "blacklist",
+      "description": "Use of possibly insecure function - consider using safer ast.literal_eval.",
+      "severity": "medium",
+      "cvss_score": 5.0,
+      "cwe_id": null,
+      "location": "test_vulnerable.py:36:13",
+      "scanner": "Bandit",
+      "rule_id": "B307",
+      "message": "Use of possibly insecure function - consider using safer ast.literal_eval.",
+      "references": [
+        "https://bandit.readthedocs.io/en/1.8.6/blacklists/blacklist_calls.html#b307-eval"
+      ],
+      "has_fix": false,
+      "fix_status": null,
+      "metadata": {
+        "confidence": "HIGH",
+        "code": "35 def eval_user_input(user_code):\n36     result = eval(user_code)\n37     return result\n"
+      },
+      "detected_at": "2025-10-05T22:27:19.668773"
+    },
+    {
+      "id": "semgrep-python-lang-security-deserialization-pickle-avoid-pickle",
+      "title": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "description": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+      "severity": "medium",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-502: Deserialization of Untrusted Data",
+      "location": "test_vulnerable.py:22:12",
+      "scanner": "Semgrep",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "message": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+      "references": [
+        "https://docs.python.org/3/library/pickle.html"
+      ],
+      "has_fix": false,
+      "fix_status": null,
+      "metadata": {
+        "category": "security",
+        "technology": [
+          "python"
+        ],
+        "owasp": [
+          "A08:2017 - Insecure Deserialization",
+          "A08:2021 - Software and Data Integrity Failures"
+        ],
+        "impact": "MEDIUM",
+        "likelihood": "LOW"
+      },
+      "detected_at": "2025-10-05T22:27:28.534957"
+    },
+    {
+      "id": "semgrep-python-lang-security-audit-subprocess-shell-true-subprocess-shell-true",
+      "title": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+      "description": "Found 'subprocess' function 'call' with 'shell=True'. This is dangerous because this call will spawn the command using a shell process. Doing so propagates current shell settings and variables, which makes it much easier for a malicious actor to execute commands. Use 'shell=False' instead.",
+      "severity": "high",
+      "cvss_score": 7.0,
+      "cwe_id": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+      "location": "test_vulnerable.py:25:32",
+      "scanner": "Semgrep",
+      "rule_id": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+      "message": "Found 'subprocess' function 'call' with 'shell=True'. This is dangerous because this call will spawn the command using a shell process. Doing so propagates current shell settings and variables, which makes it much easier for a malicious actor to execute commands. Use 'shell=False' instead.",
+      "references": [
+        "https://stackoverflow.com/questions/3172470/actual-meaning-of-shell-true-in-subprocess",
+        "https://docs.python.org/3/library/subprocess.html"
+      ],
+      "has_fix": false,
+      "fix_status": null,
+      "metadata": {
+        "category": "security",
+        "technology": [
+          "python"
+        ],
+        "owasp": [
+          "A01:2017 - Injection",
+          "A03:2021 - Injection"
+        ],
+        "impact": "LOW",
+        "likelihood": "HIGH"
+      },
+      "detected_at": "2025-10-05T22:27:28.534973"
+    },
+    {
+      "id": "semgrep-python-lang-security-audit-md5-used-as-password-md5-used-as-password",
+      "title": "python.lang.security.audit.md5-used-as-password.md5-used-as-password",
+      "description": "It looks like MD5 is used as a password hash. MD5 is not considered a secure password hash because it can be cracked by an attacker in a short amount of time. Use a suitable password hashing function such as scrypt. You can use `hashlib.scrypt`.",
+      "severity": "medium",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+      "location": "test_vulnerable.py:29:21",
+      "scanner": "Semgrep",
+      "rule_id": "python.lang.security.audit.md5-used-as-password.md5-used-as-password",
+      "message": "It looks like MD5 is used as a password hash. MD5 is not considered a secure password hash because it can be cracked by an attacker in a short amount of time. Use a suitable password hashing function such as scrypt. You can use `hashlib.scrypt`.",
+      "references": [
+        "https://tools.ietf.org/html/rfc6151",
+        "https://crypto.stackexchange.com/questions/44151/how-does-the-flame-malware-take-advantage-of-md5-collision",
+        "https://pycryptodome.readthedocs.io/en/latest/src/hash/sha3_256.html",
+        "https://security.stackexchange.com/questions/211/how-to-securely-hash-passwords",
+        "https://github.com/returntocorp/semgrep-rules/issues/1609",
+        "https://docs.python.org/3/library/hashlib.html#hashlib.scrypt"
+      ],
+      "has_fix": false,
+      "fix_status": null,
+      "metadata": {
+        "category": "security",
+        "technology": [
+          "pycryptodome",
+          "hashlib",
+          "md5"
+        ],
+        "owasp": [
+          "A03:2017 - Sensitive Data Exposure",
+          "A02:2021 - Cryptographic Failures"
+        ],
+        "impact": "LOW",
+        "likelihood": "HIGH"
+      },
+      "detected_at": "2025-10-05T22:27:28.534980"
+    },
+    {
+      "id": "semgrep-python-lang-security-audit-eval-detected-eval-detected",
+      "title": "python.lang.security.audit.eval-detected.eval-detected",
+      "description": "Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not definable by external sources.",
+      "severity": "medium",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')",
+      "location": "test_vulnerable.py:36:14",
+      "scanner": "Semgrep",
+      "rule_id": "python.lang.security.audit.eval-detected.eval-detected",
+      "message": "Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not definable by external sources.",
+      "references": [
+        "https://owasp.org/Top10/A03_2021-Injection"
+      ],
+      "has_fix": false,
+      "fix_status": null,
+      "metadata": {
+        "category": "security",
+        "technology": [
+          "python"
+        ],
+        "owasp": [
+          "A03:2021 - Injection"
+        ],
+        "impact": "HIGH",
+        "likelihood": "LOW"
+      },
+      "detected_at": "2025-10-05T22:27:28.534987"
+    }
+  ],
+  "errors": [],
+  "metadata": {
+    "config": {
+      "version": "1.0",
+      "scan": {
+        "languages": [
+          "python",
+          "javascript",
+          "typescript"
+        ],
+        "exclude": [
+          "node_modules/**",
+          "venv/**",
+          ".git/**",
+          "*.test.js"
+        ],
+        "severity_threshold": "low",
+        "max_issues": 1000,
+        "timeout_seconds": 3600,
+        "parallel_jobs": 4
+      },
+      "autofix": {
+        "enabled": false,
+        "mode": "safe",
+        "backup": true,
+        "interactive": false,
+        "max_fixes": 100
+      },
+      "reporting": {
+        "formats": [
+          "json"
+        ],
+        "output_dir": "security-reports",
+        "include_metrics": true,
+        "show_fixed": true,
+        "verbose": false
+      },
+      "github": {
+        "enabled": false,
+        "token": null,
+        "comment_on_pr": true,
+        "create_issues": false,
+        "labels": [
+          "security",
+          "automated"
+        ]
+      }
+    },
+    "scanners": [
+      "BanditScanner",
+      "SafetyScanner",
+      "SemgrepScanner"
+    ]
+  }
+}

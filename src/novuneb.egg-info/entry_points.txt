@@ -1,0 +1,2 @@
+[console_scripts]
+novuneb = novuneb.cli:main

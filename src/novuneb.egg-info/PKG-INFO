@@ -1,0 +1,282 @@
+Metadata-Version: 2.4
+Name: novuneb
+Version: 1.0.0
+Summary: Advanced vulnerability detection and auto-fixing security tool for comprehensive code analysis
+Author-email: NoVuneb Security Team <security@novuneb.dev>
+License: MIT
+Project-URL: Homepage, https://github.com/novuneb/novuneb
+Project-URL: Repository, https://github.com/novuneb/novuneb
+Project-URL: Documentation, https://docs.novuneb.dev
+Project-URL: Bug Tracker, https://github.com/novuneb/novuneb/issues
+Keywords: security,vulnerability,scanner,static-analysis,devsecops,sast
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Security
+Classifier: Topic :: Software Development :: Quality Assurance
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: bandit>=1.7.9
+Requires-Dist: semgrep>=1.88.0
+Requires-Dist: safety>=3.2.7
+Requires-Dist: pylint>=3.2.7
+Requires-Dist: typer>=0.12.5
+Requires-Dist: rich<13.6,>=13.5.2
+Requires-Dist: pydantic>=2.9.2
+Requires-Dist: requests>=2.32.3
+Requires-Dist: gitpython>=3.1.43
+Requires-Dist: jinja2>=3.1.4
+Requires-Dist: pyyaml>=6.0.2
+Requires-Dist: toml>=0.10.2
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: sarif-om>=1.0.4
+Requires-Dist: jschema-to-python>=1.2.3
+Requires-Dist: pygments>=2.18.0
+Requires-Dist: cryptography>=43.0.1
+Requires-Dist: aiohttp>=3.10.5
+Requires-Dist: libcst>=1.4.0
+Requires-Dist: radon>=6.0.1
+Requires-Dist: vulture>=2.11
+Requires-Dist: pyflakes>=3.2.0
+Requires-Dist: packaging>=24.1
+Provides-Extra: dev
+Requires-Dist: pytest>=8.3.3; extra == "dev"
+Requires-Dist: pytest-cov>=5.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.24.0; extra == "dev"
+Requires-Dist: black>=24.8.0; extra == "dev"
+Requires-Dist: mypy>=1.11.2; extra == "dev"
+Requires-Dist: ruff>=0.6.5; extra == "dev"
+Dynamic: license-file
+
+# NoVuneb 🔒
+
+**Advanced Vulnerability Detection and Auto-Fixing Security Tool**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Security](https://img.shields.io/badge/security-SAST-green.svg)](https://github.com/novuneb/novuneb)
+
+NoVuneb is a professional-grade, open-source security analysis platform that performs deep static code analysis to detect vulnerabilities across multiple programming languages and automatically suggests or applies fixes.
+
+## 🚀 Features
+
+### Core Capabilities
+- **Multi-Language Support**: Analyze Python, JavaScript, TypeScript, Java, Go, Ruby, and more
+- **Deep Static Analysis**: Leverage industry-standard tools (Bandit, Semgrep, ESLint, GoSec)
+- **Automated Fix Engine**: Intelligent code transformation and patch generation
+- **CVSS Scoring**: Severity classification with CVSS v3.1 and CWE mapping
+- **SARIF Compliance**: Standardized reporting format for CI/CD integration
+- **GitHub Integration**: Automated PR scanning, inline comments, and workflow integration
+
+### Advanced Security Checks
+- SQL Injection vulnerabilities
+- Cross-Site Scripting (XSS)
+- Command Injection
+- Path Traversal
+- Insecure Deserialization
+- Hardcoded Secrets and Credentials
+- Cryptographic Weaknesses
+- Authentication & Authorization Flaws
+- Race Conditions
+- Buffer Overflows (native code)
+- Dependency Vulnerabilities (CVE detection)
+
+### Reporting & Output
+- Interactive HTML reports with code highlighting
+- JSON/SARIF formats for tool integration
+- Terminal output with rich formatting and progress indicators
+- Severity-based prioritization
+- Historical tracking and trend analysis
+
+## 📦 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/novuneb/novuneb.git
+cd novuneb
+
+# Install dependencies
+pip install -e .
+
+# Or install from PyPI (coming soon)
+pip install novuneb
+```
+
+## 🔧 Quick Start
+
+```bash
+# Scan a local project
+novuneb scan /path/to/project
+
+# Scan with auto-fix enabled
+novuneb scan /path/to/project --fix
+
+# Generate HTML report
+novuneb scan /path/to/project --output report.html --format html
+
+# Scan specific languages
+novuneb scan /path/to/project --languages python,javascript
+
+# Scan with custom severity threshold
+novuneb scan /path/to/project --min-severity high
+
+# GitHub repository scan
+novuneb scan-github owner/repo --token YOUR_GITHUB_TOKEN
+```
+
+## 📖 Usage Examples
+
+### Basic Vulnerability Scan
+```bash
+novuneb scan ./myproject
+```
+
+### Advanced Configuration
+```bash
+novuneb scan ./myproject \
+  --config .novuneb.yaml \
+  --exclude "tests/*,vendor/*" \
+  --max-issues 100 \
+  --fix-mode interactive \
+  --output-dir ./security-reports
+```
+
+### CI/CD Integration
+```yaml
+# .github/workflows/security-scan.yml
+name: Security Scan
+on: [push, pull_request]
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run NoVuneb
+        run: |
+          pip install novuneb
+          novuneb scan . --format sarif --output results.sarif
+      - name: Upload Results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif
+```
+
+## 🛠️ Configuration
+
+Create a `.novuneb.yaml` configuration file:
+
+```yaml
+version: 1.0
+
+# Scan configuration
+scan:
+  languages:
+    - python
+    - javascript
+    - typescript
+  
+  exclude:
+    - "node_modules/**"
+    - "venv/**"
+    - "*.test.js"
+  
+  severity_threshold: "medium"
+  max_issues: 500
+
+# Auto-fix settings
+autofix:
+  enabled: true
+  mode: "safe"  # safe, aggressive, interactive
+  backup: true
+
+# Reporting
+reporting:
+  formats:
+    - html
+    - json
+    - sarif
+  include_metrics: true
+  show_fixed: true
+
+# GitHub integration
+github:
+  comment_on_pr: true
+  create_issues: false
+  labels:
+    - security
+    - automated
+```
+
+## 🔍 Supported Scanners
+
+| Scanner | Languages | Focus Areas |
+|---------|-----------|-------------|
+| **Bandit** | Python | Security issues, hardcoded secrets |
+| **Semgrep** | Multi-language | Custom rules, semantic analysis |
+| **Safety** | Python | Dependency vulnerabilities |
+| **ESLint** | JavaScript/TS | Security plugins, best practices |
+| **GoSec** | Go | Go-specific vulnerabilities |
+| **SpotBugs** | Java | Bug patterns, security issues |
+| **Brakeman** | Ruby/Rails | Rails-specific vulnerabilities |
+
+## 🎯 Detection Categories
+
+- **CWE-78**: OS Command Injection
+- **CWE-79**: Cross-Site Scripting
+- **CWE-89**: SQL Injection
+- **CWE-22**: Path Traversal
+- **CWE-502**: Deserialization of Untrusted Data
+- **CWE-798**: Hardcoded Credentials
+- **CWE-327**: Weak Cryptography
+- **CWE-306**: Missing Authentication
+- **CWE-362**: Race Conditions
+- **CWE-119**: Buffer Overflow
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+```bash
+# Development setup
+git clone https://github.com/novuneb/novuneb.git
+cd novuneb
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# Run linters
+black src/ tests/
+mypy src/
+ruff check src/
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+NoVuneb leverages and integrates with these excellent open-source projects:
+- [Bandit](https://github.com/PyCQA/bandit)
+- [Semgrep](https://github.com/returntocorp/semgrep)
+- [Safety](https://github.com/pyupio/safety)
+- [OWASP](https://owasp.org/)
+
+## 📞 Support
+
+- 📚 [Documentation](https://docs.novuneb.dev)
+- 🐛 [Issue Tracker](https://github.com/novuneb/novuneb/issues)
+- 💬 [Discussions](https://github.com/novuneb/novuneb/discussions)
+
+## 🔐 Security
+
+Found a security issue? Please report it responsibly to security@novuneb.dev
+
+---
+
+**Built with ❤️ by the NoVuneb Security Team**
